@@ -58,7 +58,7 @@ def open_loop(process, tm=5000):
     
 def closed_loop(controller, process, tm=5000):
     units_y_axis = []
-    target_y_axis = []
+    input_y_axis = []
     errors_y_axis = []
     output_y_axis = []
     x_axis = []
@@ -75,29 +75,28 @@ def closed_loop(controller, process, tm=5000):
         y = process.work(u)
 
         # print(t, r, e, u, y)
-        target_y_axis.append(r)
+        input_y_axis.append(r)
         units_y_axis.append(u)
         errors_y_axis.append(e)
         output_y_axis.append(y)
         x_axis.append(t)
     
-    # plt.plot(x_axis, units_y_axis, label = "units - controller output", linestyle=":")
-    # plt.plot(x_axis, units_y_axis, label = "units - controller output", linestyle=":")
-    # plt.plot(x_axis, errors_y_axis, label = "errors")
+    plt.plot(x_axis, units_y_axis, label = "units - controller output", linestyle=":")
+    plt.plot(x_axis, errors_y_axis, label = "errors")
     plt.plot(x_axis, output_y_axis, label = "output")
-    plt.plot(x_axis, target_y_axis, label = "target")
+    plt.plot(x_axis, input_y_axis, label = "input")
     plt.legend()
     plt.show()
     
     
     
-c = Controller(kp = 1, ki = 0.01)                
-p = Buffer(max_wip = 50, max_flow = 100)
+c = Controller(kp = 1.25, ki = 0.01)                
+p = Buffer(max_wip = 25, max_flow = 50)
 
 # open_loop(p, 3000)
 
-closed_loop(c, p, 3000)
+closed_loop(c, p)
 
-c = Controller(kp = 2, ki = 0.01)     
+# c = Controller(kp = 2, ki = 0.01)     
 
-closed_loop(c, p, 3000)
+# closed_loop(c, p, 3000)
